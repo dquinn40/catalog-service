@@ -2,6 +2,7 @@ package com.polarbookshop.catalogservice.domain;
 
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -42,10 +43,14 @@ public class BookService {
         }
 
         var bookToUpdate = new Book(
+            existingBook.get().getId(),
             existingBook.get().isbn(),
             book.title(),
             book.author(),
-            book.price());
+            book.price(),
+            existingBook.get().getVersion(),
+            existingBook.get().getCreatedDate(),
+            Instant.now());
         return bookRepository.save(bookToUpdate);
     }
 }
