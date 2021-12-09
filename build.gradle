@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.polarbookshop'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "15"
+sourceCompatibility = "17"
 
 description = 'Service for managing catalogs'
 
@@ -44,6 +44,20 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
+
+bootBuildImage {
+    imageName = "dquinn40/${project.name}:${project.version}"
+    environment = ["BP_JVM_VERSION": "17.*"]
+
+    docker {
+        publishRegistry {
+            username = project.findProperty("registryUsername")
+            password = project.findProperty("registryToken")
+            url = project.findProperty("registryUrl")
+        }
+    }
+}
+
 test {
     useJUnitPlatform()
 }
@@ -54,4 +68,4 @@ configurations {
     }
 }
 
-targetCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_17
